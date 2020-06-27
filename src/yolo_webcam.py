@@ -23,15 +23,15 @@ def get_output_layers(net):
     return output_layers
 
 
-def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h, COLORS):
+def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h, COLORS, classes):
 
     label = str(classes[class_id])
 
     color = COLORS[class_id]
+    color = np.array([int(c) for c in color])
+    cv2.rectangle(img, (int(x),int(y)), (int(x_plus_w),int(y_plus_h)), color)
 
-    cv2.rectangle(img, (x,y), (x_plus_w,y_plus_h), color, 2)
-
-    cv2.putText(img, label, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+    cv2.putText(img, label, (int(x)-10,int(y)-10), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
     print(label)
 
 def processFrame(image, args):
@@ -46,7 +46,7 @@ def processFrame(image, args):
     COLORS = np.random.uniform(0, 255, size=(len(classes), 3))
 
     #build net using weights argument and net conficuration argument
-    net = cv2.dnn.RedNetFromDarknet(args.weights, args.config)
+    net = cv2.dnn.readNet(args.weights, args.config)
 
     #convert image to 4 dimensional blob, scale by scale-factor
     blob = cv2.dnn.blobFromImage(image, scale, (416,416), (0,0,0), True, crop=False)
@@ -91,7 +91,7 @@ def processFrame(image, args):
         y = box[1]
         w = box[2]
         h = box[3]
-        draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h), COLORS)
+        draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h), COLORS, classes)
     return image
 
 cv_image = None
@@ -125,7 +125,7 @@ def main():
 
     args = Args()
     args.classes = 'yolov3.txt'
-    args.weights = 'yolo3.weights'
+    args.weights = 'yolov3.weights'
     args.config = 'yolov3.cfg'
     print("here3")
 
