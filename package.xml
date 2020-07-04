@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>Mobile-Robot-Project</name>
+  <name>mobile_robot_project</name>
   <version>0.0.0</version>
-  <description>The Mobile-Robot-Project package</description>
+  <description>The mobile_robot_project package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
