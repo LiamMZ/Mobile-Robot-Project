@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(Mobile-Robot-Project)
+project(mobile_robot_project)
+
+set(OpenCV_DIR /home/liam/opencv/build/)
+
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -8,10 +11,16 @@ find_package(catkin REQUIRED COMPONENTS
   OpenCV REQUIRED
 )
 
+
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  /include
+)
+set(${PROJECT_NAME}_SRC_FILES
+  src/object_detection.cpp
 )
 
-add_executable( DisplayImage DisplayImage.cpp )
-target_link_libraries( DisplayImage ${OpenCV_LIBS} )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+include_directories( ${OpenCV_INCLUDE_DIRS} )
