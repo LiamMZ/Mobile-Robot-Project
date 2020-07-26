@@ -16,6 +16,7 @@ void callback(const sensor_msgs::CompressedImage image_msg)
 class ImageGrabber
 {
 public:
+    ImageGrabber(){};
     void GrabImage(const sensor_msgs::ImageConstPtr& msg);
     cv::Mat image;
 };
@@ -39,9 +40,8 @@ void ImageGrabber::GrabImage(const sensor_msgs::ImageConstPtr& msg)
 int main(int argc, char **argv){
     ros::init(argc, argv, "talker");
     ros::NodeHandle nodeHandler;
-    ImageGrabber igb();
+    ImageGrabber igb = ImageGrabber();
 
-    ros::NodeHandle nodeHandler;
     image_transport::ImageTransport it_(nodeHandler);
     image_transport::Subscriber sub = it_.subscribe("/phone1/camera/image", 1, &ImageGrabber::GrabImage,&igb);
     // cv::Mat image = cv::imread("/home/liam/catkin_ws/src/mobile_robot_project/src/man.jpg");
